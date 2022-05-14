@@ -20,7 +20,6 @@ public class Chicken : MonoBehaviour
 
     Timer m_eventTimer;
     float m_eventDuration;
-    [SerializeField] AudioClip m_pioPio;
 
     private void Awake() {
 
