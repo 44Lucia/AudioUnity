@@ -10,10 +10,14 @@ public class PlayFootstepSound : MonoBehaviour
     TERRAIN m_terrain = TERRAIN.NONE;
 
     AudioSource m_audioSource;
+    Animator m_animator;
+    Rigidbody m_rb;
 
-    private void Awake()
+private void Awake()
     {
         m_audioSource = GetComponent<AudioSource>();
+        m_animator = GetComponent<Animator>();
+        m_rb = GetComponent<Rigidbody>();
     }
 
     private void Update()
@@ -42,7 +46,7 @@ public class PlayFootstepSound : MonoBehaviour
         }
         Debug.Log(terrainTag);
     }
-    void PlayFootStep()
+    void PlayFootStep(AnimationEvent p_animationEvent)
     {
         AudioClip clip;
         string path = "Sounds/";
@@ -50,7 +54,7 @@ public class PlayFootstepSound : MonoBehaviour
         switch (m_terrain)
         {
             case TERRAIN.GRASS:
-                path += "footstepsWood";
+                path += "footstepsGrass";
                 break;
             case TERRAIN.ROCK:
                 path += "footstepsRock";
@@ -59,11 +63,16 @@ public class PlayFootstepSound : MonoBehaviour
                 path += "footstepsWood";
                 break;
             default:
-                path += "footstepsWood";
+                path += "footstepsGrass";
             break;
         }
         clip = Resources.Load<AudioClip>(path);
-        m_audioSource.PlayOneShot(clip);
+        if(p_animationEvent.animatorClipInfo.weight > 0.5){
+            m_audioSource.PlayOneShot(clip);
+            Debug.Log(p_animationEvent.animatorClipInfo.weight);
+
+        }
+        
     }
 
     bool IsTerrain(string p_tag)
